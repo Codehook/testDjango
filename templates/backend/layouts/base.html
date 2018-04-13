@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- METADATA -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- START: METADATA -->
+    {% block metadata %}
+    {% endblock %}
+    <!-- END: METADATA -->
+
+    <!-- TITLE -->
+    <title>{{ title }}</title>
+
+    <!-- STYLE: Semantic UI -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" integrity="sha256-BQwSEeLxuDggfePeFdo3V906rcvcJpkSAYr/Lqc2oSo=" crossorigin="anonymous">
+    <!-- STYLE: Backend UI -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/backend.css' %}">
+
+    <!-- START: STYLES -->
+    {% block styles %}
+    {% endblock %}
+    <!-- END: STYLES -->
+
+</head>
+<body>
+
+<!-- START: MENU MOBILE -->
+<div class="ui sidebar inverted vertical menu">
+    {% include 'backend/partials/menu.html' %}
+</div>
+<!-- END: MENU MOBILE -->
+
+<div class="pusher">
+    <div class="ui grid container">
+
+        <!-- START: MENU DESKTOP -->
+        <div class="ui left fixed vertical inverted menu">
+            {% include 'backend/partials/menu.html' %}
+        </div>
+        <!-- END: MENU DESKTOP -->
+
+        <div class="ui main grid">
+
+            <!-- START: MENU MOBILE BUTTON -->
+            <div class="ui fixed inverted main menu" style="padding: 0px;">
+                <div class="ui container" style="float: left; margin: 0px;">
+                    <a class="launch icon item sidebar-toggle">
+                    <i class="sidebar icon"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- END: MENU MOBILE BUTTON -->
+
+            <!-- START: BODY -->
+            {% block body %}
+            {% endblock %}
+            <!-- END: BODY -->
+
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT: jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<!-- SCRIPT: Semantic UI -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js" integrity="sha256-BlYXc67JeIFZfxjseL6XCBWFi7MwxKoUEF6rPIzHmBM=" crossorigin="anonymous"></script>
+<!-- SCRIPT: Backend UI -->
+<script type="text/javascript" src="{% static 'js/backend.js' %}"></script>
+
+<!-- START: SCRIPTS -->
+{% block scripts %}
+{% endblock %}
+<!-- END: SCRIPTS -->
+
+</body>
+</html>

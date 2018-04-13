@@ -1,0 +1,39 @@
+{% extends 'backend/layouts/base.html' %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        Organizations
+        <div class="sub header">
+            Create
+        </div>
+    </h2>
+    <div class="right menu">
+        <a class="ui item" href="{% url 'dashboard:organization:view' %}">
+            Select
+        </a>
+        <a class="ui active item">
+            Create
+        </a>
+    </div>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    {% include 'backend/partials/organization_form.html' %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- SCRIPT: Organization form -->
+<script type="text/javascript">
+    var country = '{{ form.data.country }}';
+    var state = '{{ form.data.state }}';
+    $('[name=country]').dropdown('set selected', country);
+    $('[name=state]').dropdown('set selected', state);
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'backend/layouts/base.html' %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ team.name }}
+        <div class="sub header">
+            Events
+        </div>
+    </h2>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    <!-- Message form -->
+    <form class="ui form" style="width: 100%;" method="POST" action="{% url 'team:events' team.id %}">
+        <h4 class="ui dividing header">Create an Event</h4>
+        <div class="field">
+            <label>Name</label>
+            <input type="text" name="title" placeholder="Title" maxlength="255" value="{{ form.data.title }}" required>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Start Date</label>
+                <input type="date" name="start" value="{{ form.data.start }}" required>
+            </div>
+            <div class="field">
+                <label>End Date</label>
+                <input type="date" name="end" value="{{ form.data.end }}" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Description</label>
+            <textarea name="description" placeholder="Description" rows="2" maxlength="255" required>{{ form.data.description }}</textarea>
+        </div>
+        {% csrf_token %}
+        <button class="ui green button" type="submit">Create</button>
+    </form>
+    {% if events %}
+        <!-- Chat log -->
+        <h4 class="ui dividing header" style="width: 100%;">Event List</h4>
+        {% for event in events %}
+            <div class="ui small message" style="width: 100%;">
+                <div class="header" style="font-size: 10pt;">{{ event.title }}: {{ event.start|date:"M d, Y" }} - {{ event.end|date:"M d, Y" }}</div>
+                <p>{{ event.description }} - <em>{{ event.user.first_name }} {{ event.user.last_name }}</em></p>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

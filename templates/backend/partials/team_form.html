@@ -1,0 +1,22 @@
+<!-- Team from -->
+<form class="ui form" style="width: 100%;" method="POST" action="{% if request.resolver_match.view_name == 'organization:team:create' %}{% url 'organization:team:create' organization.id %}{% elif request.resolver_match.view_name == 'team:manage:edit' %}{% url 'team:manage:edit' team.id %}{% endif %}">
+    <h4 class="ui dividing header">Team Information</h4>
+    <div class="field">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Name" maxlength="100" value="{% if form %}{{ form.data.name|default:form.instance.name }}{% endif %}" required>
+    </div>
+    <div class="field">
+        <label>Description</label>
+        <textarea name="description" placeholder="Description" maxlength="50000" required>{% if form %}{{ form.data.description|default:form.instance.description }}{% endif %}</textarea>
+        We support <a href="https://guides.github.com/features/mastering-markdown/">Markdown</a>.
+    </div>
+    <br>
+    {% csrf_token %}
+    <button class="ui green button" type="submit">
+        {% if request.resolver_match.view_name == 'organization:team:create' %}
+            Create
+        {% elif request.resolver_match.view_name == 'team:manage:edit' %}
+            Save
+        {% endif %}
+    </button>
+</form>

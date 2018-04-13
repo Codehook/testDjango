@@ -1,0 +1,27 @@
+{% extends 'backend/layouts/base.html' %}
+{% load static %}
+
+{% block styles %}
+<!-- Markdown specific styles -->
+<link rel="stylesheet" href="{% static 'css/backend.md.css' %}">
+{% endblock %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ organization.name }}
+        <div class="sub header">
+            Home
+        </div>
+    </h2>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div>
+    {{ organization.markdown|safe }}
+</div>
+{% endblock %}

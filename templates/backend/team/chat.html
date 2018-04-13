@@ -1,0 +1,47 @@
+{% extends 'backend/layouts/base.html' %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ team.name }}
+        <div class="sub header">
+            Chat
+        </div>
+    </h2>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    <!-- Message form -->
+    <form class="ui form" style="width: 100%;" method="POST" action="{% url 'team:chat' team.id %}">
+        <h4 class="ui dividing header">Post a Message</h4>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 90%; padding: 5px;">
+                    <div class="field">
+                        <input type="text" name="message" placeholder="Say something..." maxlength="255" required>
+                    </div>
+                </td>
+                <td style="width: 10%; padding: 5px;">
+                    {% csrf_token %}
+                    <button class="ui green button" type="submit">Send</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% if team_messages %}
+        <!-- Chat log -->
+        <h4 class="ui dividing header" style="width: 100%;">Chat Log</h4>
+        {% for team_message in team_messages %}
+            <div class="ui small message" style="width: 100%;">
+                <div class="header" style="font-size: 10pt;">{{ team_message.user.first_name }} {{ team_message.user.last_name }}, {{ team_message.created|timesince }} ago</div>
+                <p>{{ team_message.message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% if messages %}
+    {% for message in messages %}
+    <div class="ui icon{% if message.tags %} {{ message.tags }}{% endif %} message">
+        <i class="close icon"></i>
+        <div class="content">
+            <div class="header">
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                    Heads up!
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    Success!
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    Warning!
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    Oh snap!
+                {% endif %}
+            </div>
+            <p>{{ message|safe }}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}

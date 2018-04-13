@@ -1,0 +1,20 @@
+{% extends 'frontend/layouts/base.html' %}
+{% load static %}
+
+{% block styles %}
+<!-- Make the masthead larger for the home page -->
+<link rel="stylesheet" href="{% static 'css/frontend.large.css' %}">
+{% endblock %}
+
+{% block masthead %}
+<div class="ui text container">
+    <h1 class="ui inverted header">
+        Teamspace
+    </h1>
+    <h2>Where teams collaborate.</h2>
+    <br>
+    <a onclick="signup()">
+        <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
+    </a>
+</div>
+{% endblock %}

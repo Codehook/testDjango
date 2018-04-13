@@ -1,0 +1,20 @@
+{
+    "web": {
+        "client_id": "619280977108-g3et39b4eh6vl4a5mjbdiki5einjua6o.apps.googleusercontent.com",
+        "project_id": "teamspace-149323",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://accounts.google.com/o/oauth2/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "uqoNcDc2y4qH6HKhuiSS-7Th",
+        "redirect_uris": [
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+            "http://localhost:8000/providers/google",
+            "http://127.0.0.1:8000/providers/google"
+        ],
+        "javascript_origins": [
+            "http://localhost:8000",
+            "http://127.0.0.1:8000"
+        ]
+    }
+}

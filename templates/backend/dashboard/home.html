@@ -1,0 +1,42 @@
+{% extends 'backend/layouts/base.html' %}
+{% load static %}
+
+{% block styles %}
+<!-- Add some spacing between the buttons -->
+<link rel="stylesheet" href="{% static 'css/backend.grid.css' %}">
+{% endblock %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        Dashboard
+        <div class="sub header">
+            Home
+        </div>
+    </h2>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    <table style="width: 100%;">
+        <tr>
+            <td class="dashboard">
+                <a class="fluid ui green button" style="padding: 50px; border-radius: 10px;" href="{% url 'dashboard:organization:view' %}">
+                    <p style="font-size: 18pt;">Organizations</p>
+                    <p style="font-size: 12pt;">Select an organization to get started.</p>
+                </a>
+            </td>
+            <td class="dashboard">
+                <a class="fluid ui blue button" style="padding: 50px; border-radius: 10px;" href="{% url 'dashboard:user:edit' %}">
+                    <p style="font-size: 18pt;">Account</p>
+                    <p style="font-size: 12pt;">View, edit, or delete your account.</p>
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

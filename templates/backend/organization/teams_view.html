@@ -1,0 +1,89 @@
+{% extends 'backend/layouts/base.html' %}
+{% load static %}
+
+{% block body %}
+<!-- Delete-Leave modal -->
+<div class="ui small modal" id="verify">
+    <div class="header" id="verify-title"></div>
+    <div class="content">
+        <div align="center" id="verify-description"></div>
+    </div>
+    <div class="actions">
+        <a class="ui cancel button" type="reset">Cancel</a>
+        <a class="ui red submit button" id="verify-link" type="submit"></a>
+    </div>
+</div>
+
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ organization.name }}
+        <div class="sub header">
+            Teams
+        </div>
+    </h2>
+    <div class="right menu">
+        <a class="ui active item">
+            Select
+        </a>
+        <a class="ui item" href="{% url 'organization:team:create' organization.id %}">
+            Create
+        </a>
+    </div>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    {% if teams %}
+    <table class="ui very basic striped celled table">
+        <thead>
+            <tr>
+                <th style="width: 70%;">Team</th>
+                <th style="width: 20%;">Members</th>
+                <th style="width: 10%;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.name }}</td>
+                <td>{{ team.members }}</td>
+                <td>
+                    {% if team.owner_id == request.user.id %}
+                     <div class="ui blue buttons">
+                         <a class="ui button" href="{% url 'team:home' team.id %}">Select</a>
+                         <div class="ui floating dropdown icon button">
+                             <i class="dropdown icon"></i>
+                             <div class="menu">
+                                 <a class="item" href="{% url 'team:manage:edit' team.id %}"><i class="edit icon"></i> Manage</a>
+                                 <a class="item" onclick="verify('{% url 'team:delete' team.id %}', 'delete', 'team')"><i class="delete icon"></i> Delete</a>
+                             </div>
+                         </div>
+                    </div>
+                    {% else %}
+                    <div class="ui green buttons">
+                        <a class="ui button" href="{% url 'team:home' team.id %}">Select</a>
+                        <div class="ui floating dropdown icon button">
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a class="item" onclick="verify('{% url 'team:leave' team.id %}', 'leave', 'team')"><i class="sign out icon"></i> Leave</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- SCRIPT: Delete-Leave modal -->
+<script type="text/javascript" src="{% static 'js/backend.manage.js' %}"></script>
+{% endblock %}

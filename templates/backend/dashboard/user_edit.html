@@ -1,0 +1,62 @@
+{% extends 'backend/layouts/base.html' %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        Account
+        <div class="sub header">
+            Settings
+        </div>
+    </h2>
+    <div class="right menu">
+        <a class="ui active item">
+            Edit Account
+        </a>
+        <a class="ui item" href="{% url 'dashboard:user:password' %}">
+            Change Password
+        </a>
+    </div>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    <!-- Edit account information -->
+    <form class="ui form" style="width: 100%;" method="POST" action="">
+        <h4 class="ui dividing header">Account Information</h4>
+        <div class="two fields">
+            <div class="field">
+                <label>First name</label>
+                <input type="text" name="first_name" placeholder="First name" maxlength="30" required>
+            </div>
+            <div class="field">
+                <label>Last name</label>
+                <input type="text" name="last_name" placeholder="Last name" maxlength="30" required>
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Username" maxlength="20" required>
+            </div>
+            <div class="field">
+                <label>Email address</label>
+                <input type="email" name="email" placeholder="Email address" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Confirm password</label>
+            <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password_two" placeholder="Confirm password" required>
+            </div>
+        </div>
+        <br>
+        {% csrf_token %}
+        <button class="ui green button" type="submit">Save</button>
+    </form>
+</div>
+{% endblock %}

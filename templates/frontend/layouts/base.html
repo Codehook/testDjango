@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- METADATA -->
+    <meta charset="UTF-8">
+
+    <!-- START: METADATA -->
+    {% block metadata %}
+    {% endblock %}
+    <!-- END: METADATA -->
+
+    <!-- TITLE -->
+    <title>{{ title }}</title>
+
+    <!-- STYLE: Semantic UI -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" integrity="sha256-BQwSEeLxuDggfePeFdo3V906rcvcJpkSAYr/Lqc2oSo=" crossorigin="anonymous">
+    <!-- STYLE: Frontend -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/frontend.css' %}">
+
+     <!-- START: STYLES -->
+    {% block styles %}
+    {% endblock %}
+    <!-- END: STYLES -->
+
+</head>
+<body>
+
+<!-- START: LOGIN -->
+<form class="ui small modal" id="login" method="POST" action="{% url 'frontend:login' %}">
+    <div class="header">Log in to Teamspace.</div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field" id="login-email">
+                <div class="ui left icon input">
+                    <i class="mail icon"></i>
+                    <input type="email" name="email" placeholder="Email address" required>
+                </div>
+            </div>
+            <div class="field" id="login-password">
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div align="center">
+            Don't have an account? <a href="#" onclick="signup()">Sign up</a>.
+        </div>
+        <div class="ui error message" id="login-errors">
+            <div class="header">There were some problems.</div>
+            <ul class="list">
+            </ul>
+        </div>
+    </div>
+    <div class="actions">
+        {% csrf_token %}
+        <button class="ui cancel button" type="reset" onclick="resetLoginForm()">Cancel</button>
+        <button class="ui green submit button" type="submit">Log in</button>
+    </div>
+</form>
+<!-- END: LOGIN -->
+
+<!-- START: SIGNUP -->
+<form class="ui small modal" id="signup" method="POST" action="{% url 'frontend:signup' %}">
+    <div class="header">Sign up for Teamspace.</div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields">
+                <div class="field" id="signup-first-name">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="first_name" placeholder="First name" maxlength="30" required>
+                    </div>
+                </div>
+                <div class="field" id="signup-last-name">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="last_name" placeholder="Last name" maxlength="30" required>
+                    </div>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field" id="signup-username">
+                    <div class="ui left icon input">
+                        <i class="browser icon"></i>
+                        <input type="text" name="username" placeholder="Username" maxlength="20" required>
+                    </div>
+                </div>
+                <div class="field" id="signup-email">
+                    <div class="ui left icon input">
+                        <i class="mail icon"></i>
+                        <input type="email" name="email" placeholder="Email address" required>
+                    </div>
+                </div>
+            </div>
+            <div class="field" id="signup-password-one">
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password_one" placeholder="Password" required>
+                </div>
+            </div>
+            <div class="field" id="signup-password-two">
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password_two" placeholder="Confirm password" required>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div align="center">
+            Already have an account? <a href="#" onclick="login()">Log in</a>.
+        </div>
+        <div class="ui error message" id="signup-errors">
+            <div class="header">There were some problems.</div>
+            <ul class="list">
+            </ul>
+        </div>
+    </div>
+    <div class="actions">
+        {% csrf_token %}
+        <button class="ui cancel button" type="reset" onclick="resetSignupForm()">Cancel</button>
+        <button class="ui green submit button" type="submit">Sign up</button>
+    </div>
+</form>
+<!-- END: SIGNUP -->
+
+<!-- START: FLOATING MENU -->
+<div class="ui large top fixed hidden menu">
+    <div class="ui container">
+        <a class="{% if request.resolver_match.view_name == 'frontend:home' %}active {% endif %}item" href="{% url 'frontend:home' %}">Home</a>
+        <a class="{% if request.resolver_match.view_name == 'frontend:about' %}active {% endif %}item" href="{% url 'frontend:about' %}">About</a>
+        <div class="right menu">
+            <div class="item">
+                <a class="ui button" onclick="login()">Log in</a>
+            </div>
+            <div class="item">
+                <a class="ui primary button" onclick="signup()">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: FLOATING MENU -->
+
+<!-- START: SIDE MENU -->
+<div class="ui vertical inverted sidebar menu">
+    <a class="{% if request.resolver_match.view_name == 'frontend:home' %}active {% endif %}item" href="{% url 'frontend:home' %}">Home</a>
+    <a class="{% if request.resolver_match.view_name == 'frontend:about' %}active {% endif %}item" href="{% url 'frontend:about' %}">About</a>
+</div>
+<!-- END: SIDE MENU -->
+
+<div class="pusher">
+
+    <!-- START: TOP MENU -->
+    <div class="ui inverted vertical masthead center aligned segment breakpoint">
+        <div class="ui container">
+            <div class="ui large secondary inverted pointing menu">
+                <a class="toc item">
+                <i class="sidebar icon"></i>
+                </a>
+                <a class="{% if request.resolver_match.view_name == 'frontend:home' %}active {% endif %}item" href="{% url 'frontend:home' %}">Home</a>
+                <a class="{% if request.resolver_match.view_name == 'frontend:about' %}active {% endif %}item" href="{% url 'frontend:about' %}">About</a>
+                <div class="right item">
+                    <a class="ui inverted button" onclick="login()">Log in</a>
+                    <a class="ui inverted button" onclick="signup()">Sign up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- START: MASTHEAD -->
+        {% block masthead %}
+        {% endblock %}
+        <!-- END: MASTHEAD -->
+
+    </div>
+    <!-- END: TOP MENU -->
+
+    <!-- START: BODY -->
+    {% block body %}
+    {% endblock %}
+    <!-- END: BODY -->
+
+    <!-- START: FOOTER-->
+    {% if request.resolver_match.view_name != 'frontend:home' %}
+    <div class="ui inverted vertical footer segment">
+        <div class="ui container">
+            <div class="ui stackable inverted divided equal height stackable grid">
+                <div class="three wide column">
+                    <h4 class="ui inverted header">About</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">Sitemap</a>
+                        <a href="#" class="item">Contact Us</a>
+                    </div>
+                </div>
+                <div class="three wide column">
+                    <h4 class="ui inverted header">Services</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">Pricing</a>
+                        <a href="#" class="item">Conditions</a>
+                    </div>
+                </div>
+                <div class="seven wide column">
+                    <h4 class="ui inverted header">Footer Header</h4>
+                    <p>Some text here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- END: FOOTER -->
+
+</div>
+
+<!-- SCRIPT: jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<!-- SCRIPT: Semantic UI -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js" integrity="sha256-BlYXc67JeIFZfxjseL6XCBWFi7MwxKoUEF6rPIzHmBM=" crossorigin="anonymous"></script>
+<!-- SCRIPT: Menu -->
+<script type="text/javascript" src="{% static 'js/frontend.js' %}"></script>
+
+<!-- SCRIPT: Modals -->
+<script type="text/javascript" src="{% static 'js/frontend.forms.js' %}"></script>
+
+<!-- START: SCRIPTS -->
+{% block scripts %}
+{% endblock %}
+<!-- END: SCRIPTS -->
+
+</body>
+</html>

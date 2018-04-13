@@ -1,0 +1,65 @@
+{% load static %}
+
+<!-- HIDE DEFAULT SPACER -->
+<a class="item" style="visibility: hidden; padding: 0;"></a>
+
+<!-- DASHBOARD -->
+<a class="item" href="{% url 'dashboard:home' %}">
+    <h4 align="center">Dashboard</h4>
+</a>
+
+{% if organization %}
+    <!-- ORGANIZATION MENU -->
+    <div class="item">
+        <b>{{ organization.name }}</b>
+    </div>
+    <a class="{% if request.resolver_match.view_name == 'organization:home' %}active {% endif %}item" href="{% url 'organization:home' organization.id %}">
+        <small>Home</small>
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'organization:users' %}active {% endif %}item" href="{% url 'organization:users' organization.id %}">
+        <small>Users</small>
+    </a>
+    <a class="{% if request.resolver_match.namespace == 'organization:team' %}active {% endif %}item" href="{% url 'organization:team:view' organization.id %}">
+        <small>Teams</small>
+    </a>
+    {% if organization.owner_id == request.user.id %}
+        <a class="{% if request.resolver_match.namespace == 'organization:manage' %}active {% endif %}item" href="{% url 'organization:manage:edit' organization.id %}">
+            <small>Manage</small>
+        </a>
+    {% endif %}
+{% endif %}
+
+{% if team %}
+    <!-- TEAM MENU -->
+    <div class="item">
+        <b>{{ team.name }}</b>
+    </div>
+    <a class="{% if request.resolver_match.view_name == 'team:home' %}active {% endif %}item" href="{% url 'team:home' team.id %}">
+        <small>Home</small>
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'team:users' %}active {% endif %}item" href="{% url 'team:users' team.id %}">
+        <small>Users</small>
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'team:events' %}active {% endif %}item" href="{% url 'team:events' team.id %}">
+        <small>Events</small>
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'team:chat' %}active {% endif %}item" href="{% url 'team:chat' team.id %}">
+        <small>Chat</small>
+        <!--<div class="ui label">24</div>-->
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'team:files' %}active {% endif %}item" href="{% url 'team:files' team.id %}">
+        <small>Files</small>
+        <!--<div class="ui label">11</div>-->
+    </a>
+    {% if team.owner_id == request.user.id %}
+        <a class="{% if request.resolver_match.namespace == 'team:manage' %}active {% endif %}item" href="{% url 'team:manage:edit' team.id %}">
+            <small>Manage</small>
+        </a>
+    {% endif %}
+{% endif %}
+
+<!-- LOGOUT -->
+<a class="item" href="{% url 'frontend:logout' %}">
+    <h4 class="ui grey header">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+    <p>Log out</p>
+</a>

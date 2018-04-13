@@ -1,0 +1,79 @@
+{% extends 'backend/layouts/base.html' %}
+{% load static %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ organization.name }}
+        <div class="sub header">
+            Manage
+        </div>
+    </h2>
+    <div class="right menu">
+        <a class="ui item" href="{% url 'organization:manage:edit' organization.id %}">
+            Edit
+        </a>
+        <a class="ui active item">
+            Users
+        </a>
+    </div>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    <!-- Invitation form -->
+    <form class="ui form" style="width: 100%;" method="POST" action="{% url 'organization:manage:users' organization.id %}">
+        <h4 class="ui dividing header">Invite Users</h4>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 90%; padding: 5px;">
+                    <div class="field">
+                        <input type="email" name="email" placeholder="Email address" value="{{ form.data.email }}" required>
+                    </div>
+                </td>
+                <td style="width: 10%; padding: 5px;">
+                    {% csrf_token %}
+                    <button class="ui green button" type="submit">Invite</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <!-- User table -->
+    {% if organization.members > 1 %}
+        <table class="ui very basic striped celled table">
+            <thead>
+                <tr>
+                    <th style="width: 70%;">User</th>
+                    <th style="width: 20%;">Member Since</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    {% if user.id != request.user.id %}
+                    <tr>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                        <td>{{ user.member_date|date:"M d, Y" }}</td>
+                        <td><a class="ui red button" onclick="remove('{{ user.id }}')">Remove</a></td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <!-- Hidden remove form -->
+    <form class="ui form" id="hidden" style="width: 100%;" method="POST" action="{% url 'organization:manage:users' organization.id %}">
+        <input type="hidden" name="id">
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- SCRIPT: Hidden form controller -->
+<script type="text/javascript" src="{% static 'js/backend.manage.js' %}"></script>
+{% endblock %}

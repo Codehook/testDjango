@@ -1,0 +1,29 @@
+{% extends 'backend/layouts/base.html' %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ team.name }}
+        <div class="sub header">
+            Manage
+        </div>
+    </h2>
+    <div class="right menu">
+        <a class="ui active item">
+            Edit
+        </a>
+        <a class="ui item" href="{% url 'team:manage:users' team.id %}">
+            Users
+        </a>
+    </div>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    {% include 'backend/partials/team_form.html' %}
+</div>
+{% endblock %}

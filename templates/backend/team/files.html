@@ -1,0 +1,55 @@
+{% extends 'backend/layouts/base.html' %}
+{% load static %}
+
+{% block body %}
+<!-- Page title -->
+<div class="ui secondary pointing fluid menu">
+    <h2 class="ui header">
+        {{ team.name }}
+        <div class="sub header">
+            Files
+        </div>
+    </h2>
+</div>
+
+<!-- Notifications -->
+{% include 'backend/partials/notifications.html' %}
+
+<!-- Body -->
+<div class="row">
+    <!-- Hidden upload form -->
+    <form id="hidden" method="POST" action="{% url 'team:files' team.id %}">
+        <input type="hidden" name="file_id">
+        {% csrf_token %}
+    </form>
+    <button class="ui google plus button" style="width: 100%;" onclick="loadPicker()">
+        <i class="google icon"></i>
+        Share a file from Google Drive
+    </button>
+    <!-- List of files -->
+    {% if files %}
+        <h4 class="ui dividing header" style="width: 100%;">Shared Files</h4>
+        {% for file in files %}
+            <div class="ui small message" style="width: 100%;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 100%;">
+                            <div class="header" style="font-size: 10pt;">{{ file.name }}</div>
+                            Uploaded by {{ file.user.first_name }} {{ file.user.last_name }}, {{ file.created|timesince }} ago
+                        </td>
+                        <td>
+                            <a href="?file_id={{ file.id }}"><i class="download icon" style="font-size: 20pt; padding-top: 5px;"></i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/backend.picker.js' %}"></script>
+<script type="text/javascript" src="https://apis.google.com/js/api.js">' + '</script>
+<script type="text/javascript">initPicker('{{ api_key }}', '{{ client_id }}', '{{ app_id }}');</script>
+{% endblock %}
